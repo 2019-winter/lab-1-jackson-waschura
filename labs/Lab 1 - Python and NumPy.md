@@ -36,7 +36,7 @@ Please read and reference the following as your progress through this course.
 **In the space provided below, what are three things that still remain unclear or need further explanation?**
 
 
-**YOUR ANSWER HERE**
+Nothing is unclear or needs further explanation.
 
 
 ## Exercises 1-7
@@ -46,46 +46,82 @@ For the following exercises please read the Python appendix in the Marsland text
 ## Exercise 1
 
 ```python
-# YOUR SOLUTION HERE
-#a=1000
-print('this is my answer',a+1) 
+import numpy as np
+```
+
+```python
+a = np.full((6,4), fill_value=2)
 ```
 
 ## Exercise 2
 
 ```python
-# YOUR SOLUTION HERE
-a=2000
+b = np.eye(N=6,M=4)*2 + np.full((6, 4), fill_value=1)
 ```
 
 ## Exercise 3
 
 ```python
-# YOUR SOLUTION HERE
+# Element-wise multiplication works
+c = a * b
+
+# Dot product cannot be run because the shapes do not work
+# d = np.dot(a, b)
 ```
+
+Element-wise multiplication of numpy arrays using * works because the two arrays have the same shape. The arrays cannot be matrix multiplied using dot() because the number of rows in **a** does not match the number of columns in **b**.
+
 
 ## Exercise 4
 
 ```python
-# YOUR SOLUTION HERE
+np.dot(a.transpose(), b)
+
+np.dot(a, b.transpose())
 ```
+
+The result of np.dot(**a**, **b**) will have **a**'s number of rows and **b**'s number of columns.
+
 
 ## Exercise 5
 
 ```python
-# YOUR SOLUTION HERE
+def print_stuff():
+    print("Stuff")
+
+print_stuff()
 ```
 
 ## Exercise 6
 
 ```python
-# YOUR SOLUTION HERE
+def summarize_random_arrays():
+    a = np.random.rand(3, 4)
+    b = np.random.rand(3, 4)
+    print("a:", a)
+    print("b:", b)
+    print("a+b:", a+b)
+    print("mean of a:", np.mean(a))
+    print("mean of b:", np.mean(b))
+
+summarize_random_arrays()
 ```
 
 ## Exercise 7
 
 ```python
-# YOUR SOLUTION HERE
+def num_ones(arr):
+    count = 0
+    for v in arr.flatten():
+        if v == 1.0:
+            count += 1
+    return count
+
+print(num_ones(np.full((2, 3), fill_value=1.0)))
+print(num_ones(np.eye(N=6,M=4)))
+
+print(np.sum(np.where(np.full((2, 3), fill_value=1.0) == 1.0, 1, 0)))
+print(np.sum(np.where(np.eye(N=6,M=4) == 1.0, 1, 0)))
 ```
 
 ## Excercises 8-???
@@ -96,28 +132,41 @@ While the Marsland book avoids using another popular package called Pandas, we w
 Repeat exercise A.1 from Marsland, but create a Pandas DataFrame instead of a NumPy array.
 
 ```python
-# YOUR SOLUTION HERE
+import pandas as pd
+```
+
+```python
+a = pd.DataFrame(np.full((6, 4), fill_value=2.0))
+a
 ```
 
 ## Exercise 9
 Repeat exercise A.2 using a DataFrame instead.
 
 ```python
-# YOUR SOLUTION HERE
+b = pd.DataFrame(np.eye(N=6,M=4)*2 + np.full((6, 4), fill_value=1))
+b
 ```
 
 ## Exercise 10
 Repeat exercise A.3 using DataFrames instead.
 
 ```python
-# YOUR SOLUTION HERE
+a * b
+
+# matrix multiplication will still fail due to shape disagreement
+# I'm also unsure how to perform matrix multiplication on
+# dataframes without first converting to ndarrays...
 ```
 
 ## Exercise 11
 Repeat exercise A.7 using a dataframe.
 
 ```python
-# YOUR SOLUTION HERE
+def count_ones(df):
+    return df[df == 1.0].sum().sum()
+
+count_ones(b)
 ```
 
 ## Exercises 12-14
@@ -137,7 +186,7 @@ Notice how we have nice headers and mixed datatypes? That is one of the reasons 
 How do you select the ``name`` column without using .iloc?
 
 ```python
-## YOUR SOLUTION HERE
+titanic_df['name']
 ```
 
 ## Exercise 13
@@ -146,13 +195,18 @@ After setting the index to ``sex``, how do you select all passengers that are ``
 ```python
 ## YOUR SOLUTION HERE
 titanic_df.set_index('sex',inplace=True)
+titanic_df.loc['female']
 ```
 
 ## Exercise 14
 How do you reset the index?
 
 ```python
-## YOUR SOLUTION HERE
+# If you use .reset_index(inplace=True) then the dataframe will
+# create a new unnamed index instead of using the "index" column
+
+titanic_df.set_index('index', inplace=True)
+titanic_df
 ```
 
 ```python
